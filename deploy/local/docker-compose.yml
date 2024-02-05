@@ -1,0 +1,42 @@
+version: "3.7"
+services:
+  nest-box-backend-db:
+    image: postgres:11
+    container_name: nest-box-backend-db
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./tmp/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: nest-box-db
+  nest-box-backend-redis:
+    image: redis
+    container_name: nest-box-backend-redis
+    ports:
+      - 6377:6379
+  nest-box-backend:
+    build: ../../
+    container_name: nest-box-backend
+    restart: always
+    depends_on:
+      - nest-box-backend-redis
+      - nest-box-backend-db
+    ports:
+      - "3001:3000"
+    environment:
+      - APPLICATION_PORT=3000
+      - DB_HOST=nest-box-backend-db
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_DATABASE=nest-box-db
+      - REDIS_HOST=nest-box-backend-redis
+      - REDIS_PORT=6379
+      - REDIS_DB=
+      - REDIS_PASSWORD=null
+      - REDIS_PRIFIX=
+    volumes:
+      - ../scripts/wait-for-it.sh:/wait-for-it.sh

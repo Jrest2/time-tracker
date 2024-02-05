@@ -1,0 +1,152 @@
+{
+	"info": {
+		"_postman_id": "3aad2b60-28e1-4c8d-9802-d14e930dd568",
+		"name": "NestSolutionBox",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" var jsonData = JSON.parse(responseBody);",
+									"    if(responseCode.code === 200){",
+									"        //set token (from response) to environment",
+									"        postman.setEnvironmentVariable(\"token\", jsonData.accessToken);",
+									"    }"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user2@gmail.com\",\n    \"password\": \"#f1234567\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Me",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/user/me/450a3d3f-3f9b-4280-a409-fa3f6f2b5927",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"me",
+								"450a3d3f-3f9b-4280-a409-fa3f6f2b5927"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/user/find/all",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"find",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user3@gmail.com\",\n    \"password\": \"#f1234567\",\n    \"rePassword\": \"#f1234567\" \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/registration/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"registration",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/registration/activate/f30b41df-385b-41b6-81ec-d2810c808501",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"registration",
+								"activate",
+								"f30b41df-385b-41b6-81ec-d2810c808501"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
